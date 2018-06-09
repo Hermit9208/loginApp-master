@@ -49,24 +49,9 @@ router.post('/login', function(req, res, next) {
 
 router.get('/get/data', function(req, res, next) {
 	var query = 'http://catalog.api.2gis.ru/2.0/catalog/branch/search?locale=ru_KG&region_id=112&q=%D1%82%D0%B5%D0%B0%D1%82%D1%80%D1%8B&region_id=1&page=*page*&page_size=1&fields=items.reviews&format=json&key=ruoedw9225';
-	//page=*page*
-	var names = []
-	var ids = []
-	
-	for(let i = 1;i <= 12; i++) {
-		ids.push(i)
-	}
-
-	async.eachSeries(ids, function iterator(id, callback) {
-		var axilary = query.replace('*page*', id)
-		request(axilary, function (error, response, body) { 
-			var obj = JSON.parse(body)
-			var name = obj.result.items[0].name
-			names.push(name)
-			callback()
-		});
-	}, function done() {
-		res.send(names)
+	request(query, function (error, response, body){
+		console.log(body);
+		res.send('It works')
 	});
 });
 
